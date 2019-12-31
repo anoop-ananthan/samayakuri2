@@ -1,17 +1,32 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Align(
-              alignment: Alignment.topRight,
-              child: Text('Home', style: Theme.of(context).textTheme.display1)),
+    return new Scaffold(
+      body: Align(
+        alignment: Alignment.centerLeft,
+        child: TransportAnimation(
+          fit: BoxFit.contain,
         ),
       ),
+    );
+  }
+}
+
+class TransportAnimation extends StatelessWidget {
+  TransportAnimation({Key key, this.fit}) : super(key: key);
+  final BoxFit fit;
+  static const _animationName = 'driving';
+
+  @override
+  Widget build(BuildContext context) {
+    return FlareActor(
+      'assets/flare/matt.flr',
+      alignment: Alignment.center,
+      fit: fit ?? BoxFit.scaleDown,
+      animation: _animationName,
     );
   }
 }
