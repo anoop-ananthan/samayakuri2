@@ -20,17 +20,6 @@ class LoginBackground extends StatelessWidget {
           ),
         ),
         height: screenHeight * .45,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.blueAccent,
-              Colors.blue[500],
-              Colors.blue[100],
-            ],
-          ),
-        ),
       ),
     );
   }
