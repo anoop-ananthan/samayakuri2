@@ -1,7 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:samayakuri2/models/user.dart';
 import 'package:samayakuri2/screens/login/login_background.dart';
+import 'package:toast/toast.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  List<User> _userList;
+  String username;
+
+  void initState() {
+    super.initState();
+    User.getUsers().then((result) => {_userList = result});
+  }
+
+  onLoginButtonClicked() {
+    if (checkIfUserExists())
+      Navigator.pushReplacementNamed(context, '/users_list');
+    else
+      showToast("Invalid username");
+  }
+
+  checkIfUserExists() {
+    try {
+      if (_userList.length == 0) return;
+      for (var u in _userList) {
+        if (u.username == username) {
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +64,9 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextFormField(
+              onChanged: (text) {
+                username = text;
+              },
               decoration: InputDecoration(
                   labelText: "Username",
                   hintText: "Enter your username",
@@ -48,7 +87,7 @@ class LoginScreen extends StatelessWidget {
             height: 100,
             padding: const EdgeInsets.all(20.0),
             child: FlatButton(
-              onPressed: () {},
+              onPressed: onLoginButtonClicked,
               padding: EdgeInsets.all(10),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
@@ -77,5 +116,9 @@ class LoginScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void showToast(String msg) {
+    Toast.show(msg, context, backgroundRadius: 5, backgroundColor: Colors.red);
   }
 }

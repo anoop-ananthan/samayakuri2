@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+/// User class defines all the employees of the establishment
 class User {
   String username;
   String name;
@@ -49,12 +50,14 @@ class User {
   }
 
   static Future<List<User>> getUsers() async {
+    print("> here am I");
     const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
     final response = await http.get(url);
-    var usersList = (json.decode(response.body) as List)
+    var userList = (json.decode(response.body) as List)
         .map<User>((u) => User.fromJson(u))
         .toList();
-    usersList.sort((a, b) => a.name.compareTo(b.name));
-    return usersList;
+    userList.sort((a, b) => a.name.compareTo(b.name));
+
+    return userList;
   }
 }
