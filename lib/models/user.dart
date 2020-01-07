@@ -68,4 +68,14 @@ class User extends ChangeNotifier {
   String toString() {
     return this.name;
   }
+
+  Future<List<User>> fetchUsers() async {
+    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
+    final response = await http.get(url);
+    var userList = (json.decode(response.body) as List)
+        .map<User>((u) => User.fromJson(u))
+        .toList();
+    userList.sort((a, b) => a.name.compareTo(b.name));
+    return userList;
+  }
 }
