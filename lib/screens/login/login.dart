@@ -9,12 +9,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  List<User> _userList;
+  // List<User> _userList;
   String username;
 
   void initState() {
     super.initState();
-    User.getUsers().then((result) => {_userList = result});
   }
 
   onLoginButtonClicked() {
@@ -25,17 +24,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   checkIfUserExists() {
-    try {
-      if (_userList.length == 0) return;
-      for (var u in _userList) {
-        if (u.username == username) {
-          return true;
-        }
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
+    return true;
+    // try {
+    //   if (_userList.length == 0) return;
+    //   for (var u in _userList) {
+    //     if (u.username == username) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // } catch (e) {
+    //   return false;
+    // }
   }
 
   @override
