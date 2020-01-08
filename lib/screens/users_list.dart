@@ -13,8 +13,28 @@ class UsersListScreen extends StatelessWidget {
       ),
       body: Consumer<User>(
         builder: (context, user, child) => user.users == null
-            ? Center(child: CircularProgressIndicator())
-            : Text('hope this is working ${user.users.length}'),
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: user.users.length,
+                itemBuilder: (context, i) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(user.users[i].photoUrl),
+                    ),
+                    title: Text(user.users[i].name),
+                    subtitle: Text(user.users[i].role),
+                    trailing: Text(
+                      user.users[i].isPresent ? 'In' : 'Out',
+                      style: TextStyle(
+                          color: user.users[i].isPresent
+                              ? Colors.greenAccent
+                              : Colors.redAccent),
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
