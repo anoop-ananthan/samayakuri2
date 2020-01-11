@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samayakuri2/models/user.dart';
+import 'package:samayakuri2/screens/profile/profile.dart';
 
 class UsersListScreen extends StatelessWidget {
   @override
@@ -20,6 +21,15 @@ class UsersListScreen extends StatelessWidget {
                 itemCount: user.users.length,
                 itemBuilder: (context, i) {
                   return ListTile(
+                    onTap: () {
+                      user.setProfileUser(user.users[i]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(user.users[i]),
+                        ),
+                      );
+                    },
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(user.users[i].photoUrl),
                     ),

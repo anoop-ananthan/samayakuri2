@@ -16,8 +16,14 @@ class User extends ChangeNotifier {
   String punchDate;
   String photoUrl;
   bool isPresent;
+  int _currentIndex = 0;
 
-  List<User> users;
+  get currentIndex => _currentIndex;
+
+  set currentIndex(int index) {
+    _currentIndex = index;
+    notifyListeners();
+  }
 
   User(
       {this.username,
@@ -32,6 +38,23 @@ class User extends ChangeNotifier {
       this.punchDate,
       this.isPresent,
       this.photoUrl});
+
+  List<User> users;
+
+  /// Logged in user
+  User currentUser;
+
+  /// User whose profile is selected by current user
+  User profileUser;
+
+  void setCurrentUser(User user) {
+    currentUser = user;
+  }
+
+  void setProfileUser(User user) {
+    profileUser = user;
+    notifyListeners();
+  }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
