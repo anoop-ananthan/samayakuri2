@@ -42,17 +42,20 @@ class User extends ChangeNotifier {
   List<User> users;
 
   /// Logged in user
-  User currentUser;
-
-  /// User whose profile is selected by current user
-  User profileUser;
-
-  void setCurrentUser(User user) {
-    currentUser = user;
+  static User _currentUser;
+  static User get currentUser => _currentUser;
+  static set currentUser(User user) {
+    _currentUser = user;
+    print('> current user property set ${user.username}');
   }
 
+  /// User whose profile is selected by current user
+  static User _profileUser;
+  static User get profileUser => _profileUser;
+
   void setProfileUser(User user) {
-    profileUser = user;
+    _profileUser = user;
+    print('> profile user property set ${_profileUser.username}');
     notifyListeners();
   }
 

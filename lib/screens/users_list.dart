@@ -7,7 +7,9 @@ class UsersListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
+
     user.getUsers();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Employees'),
@@ -26,7 +28,10 @@ class UsersListScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(user.users[i]),
+                          builder: (context) => ChangeNotifierProvider.value(
+                            child: ProfileScreen(),
+                            value: User.profileUser,
+                          ),
                         ),
                       );
                     },

@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void fetcUsersFromApi() async {
-    User user = new User();
+    User user = User();
     this._userList = await user.fetchUsers();
     print("> got the users from the API");
   }
@@ -36,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (_userList.length == 0) return;
       for (var u in _userList) {
         if (u.username == username) {
+          User.currentUser = u;
           return true;
         }
       }
