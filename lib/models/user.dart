@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:samayakuri2/models/punch.dart';
 
 /// User class defines all the employees of the establishment
 class User extends ChangeNotifier {
@@ -17,12 +18,12 @@ class User extends ChangeNotifier {
   String photoUrl;
   bool isPresent;
   int _selectedTabIndex = 0;
+  List<Punch> punchLog;
 
   String get durationInsideOffice {
     // String prettyTime(DateTime time) => DateFormat('HH:mm').format(time);
-
     // Duration d = new Duration(seconds: durationInsideOfficeInSeconds);
-// DateTime date = DateTime.fromMicrosecondsSinceEpoch(durationInsideOfficeInSeconds);
+    // DateTime date = DateTime.fromMicrosecondsSinceEpoch(durationInsideOfficeInSeconds);
     return '1:15';
   }
 
@@ -47,6 +48,7 @@ class User extends ChangeNotifier {
       this.totalTimeSpentAfterFirstPunchInSeconds,
       this.punchDate,
       this.isPresent,
+      this.punchLog,
       this.photoUrl});
 
   List<User> users;
@@ -85,12 +87,15 @@ class User extends ChangeNotifier {
             json['totalTimeSpentAfterFirstPunchInSeconds'] as int,
         punchDate: json['punchDate'] as String,
         isPresent: json['status'].toString() == 'In',
-        photoUrl: json['picture'] as String);
+        photoUrl: json['picture'] as String,
+        punchLog:
+            List<Punch>.from(json["punches"].map((x) => Punch.fromJson(x))));
   }
 
   void getUsers() async {
     print('> calling getusers()');
-    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
+    const url =
+        'http://bhipms.net/index.php?r=punchresult/DailyPunchApi&pdate=2019-12-31';
     final response = await http.get(url);
     var userList = (json.decode(response.body) as List)
         .map<User>((u) => User.fromJson(u))
@@ -106,7 +111,8 @@ class User extends ChangeNotifier {
   }
 
   Future<List<User>> fetchUsers() async {
-    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
+    const url =
+        'http://bhipms.net/index.php?r=punchresult/DailyPunchApi&pdate=2019-12-31';
     final response = await http.get(url);
     var userList = (json.decode(response.body) as List)
         .map<User>((u) => User.fromJson(u))

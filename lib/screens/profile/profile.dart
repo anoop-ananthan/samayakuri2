@@ -8,17 +8,46 @@ import 'package:samayakuri2/screens/profile/timing.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final User user = Provider.of<User>(context, listen: false);
+    final User user = Provider.of<User>(context, listen: false);
     List<Widget> tabs = [
       Timing(),
       PunchLog(),
       Calculator(),
     ];
     return Scaffold(
-      body: Consumer<User>(
-        builder: (context, user, child) => Center(
-          child: tabs[user.selectedTabIndex],
-        ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.purple,
+        title: Text(user.name),
+      ),
+      body: Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                height: 225,
+                color: Colors.green[200],
+              ),
+              ClipPath(
+                clipper: CurvedClipper(),
+                child: Container(
+                  color: Colors.purple,
+                  height: 225,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+              Center(
+                child: CircleAvatar(
+                  radius: 105,
+                  backgroundImage: NetworkImage(user.photoUrl),
+                ),
+              )
+            ],
+          ),
+          Consumer<User>(
+            builder: (context, user, _) => tabs[user.selectedTabIndex],
+          ),
+        ],
       ),
       bottomNavigationBar: Consumer<User>(
         builder: (context, user, child) => BottomNavigationBar(
@@ -152,38 +181,18 @@ class ProfileScreen extends StatelessWidget {
 //   }
 // }
 
-// class CurvedClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     Path path = Path();
-//     path.lineTo(0, size.height);
-//     path.lineTo(size.width * .05, size.height);
-//     path.lineTo(size.width, 0);
-//     return path;
-//   }
+class CurvedClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(size.width * .05, size.height);
+    path.lineTo(size.width, 0);
+    return path;
+  }
 
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) {
-//     return true;
-//   }
-// }
-
-// bottomNavigationBar: BottomNavigationBar(
-//         items: const <BottomNavigationBarItem>[
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             title: Text('Home'),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.business),
-//             title: Text('Business'),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.school),
-//             title: Text('School'),
-//           ),
-//         ],
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: Colors.amber[800],
-//         onTap: _onItemTapped,
-//       ),
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
