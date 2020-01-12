@@ -1,14 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samayakuri2/models/user.dart';
+import 'package:samayakuri2/screens/profile/punch_log.dart';
+import 'package:samayakuri2/screens/profile/time_calculator.dart';
+import 'package:samayakuri2/screens/profile/timing.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context, listen: false);
+    // final User user = Provider.of<User>(context, listen: false);
+    List<Widget> tabs = [
+      Timing(),
+      PunchLog(),
+      Calculator(),
+    ];
     return Scaffold(
-      body: Center(
-        child: Text(user.username),
+      body: Consumer<User>(
+        builder: (context, user, child) => Center(
+          child: tabs[user.selectedTabIndex],
+        ),
+      ),
+      bottomNavigationBar: Consumer<User>(
+        builder: (context, user, child) => BottomNavigationBar(
+          currentIndex: user.selectedTabIndex,
+          onTap: (index) {
+            try {
+              user.selectedTabIndex = index;
+            } catch (e) {
+              print(e);
+            }
+          },
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              title: Text('Business'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              title: Text('School'),
+            ),
+          ],
+        ),
       ),
     );
   }

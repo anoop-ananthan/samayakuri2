@@ -16,12 +16,22 @@ class User extends ChangeNotifier {
   String punchDate;
   String photoUrl;
   bool isPresent;
-  int _currentIndex = 0;
+  int _selectedTabIndex = 0;
 
-  get currentIndex => _currentIndex;
+  String get durationInsideOffice {
+    // String prettyTime(DateTime time) => DateFormat('HH:mm').format(time);
 
-  set currentIndex(int index) {
-    _currentIndex = index;
+    // Duration d = new Duration(seconds: durationInsideOfficeInSeconds);
+// DateTime date = DateTime.fromMicrosecondsSinceEpoch(durationInsideOfficeInSeconds);
+    return '1:15';
+  }
+
+  get selectedTabIndex => _selectedTabIndex;
+
+  set selectedTabIndex(int index) {
+    if (_selectedTabIndex == index) return;
+    print('> selected index change from $_selectedTabIndex to $index');
+    _selectedTabIndex = index;
     notifyListeners();
   }
 
