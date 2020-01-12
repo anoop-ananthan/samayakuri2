@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samayakuri2/models/user.dart';
+import 'package:samayakuri2/screens/profile/profile.dart';
 
 class UsersListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
+
     user.getUsers();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Employees'),
@@ -20,6 +23,18 @@ class UsersListScreen extends StatelessWidget {
                 itemCount: user.users.length,
                 itemBuilder: (context, i) {
                   return ListTile(
+                    onTap: () {
+                      user.setProfileUser(user.users[i]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider.value(
+                            child: ProfileScreen(),
+                            value: User.profileUser,
+                          ),
+                        ),
+                      );
+                    },
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(user.users[i].photoUrl),
                     ),

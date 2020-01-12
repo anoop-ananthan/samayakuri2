@@ -16,8 +16,24 @@ class User extends ChangeNotifier {
   String punchDate;
   String photoUrl;
   bool isPresent;
+  int _selectedTabIndex = 0;
 
-  List<User> users;
+  String get durationInsideOffice {
+    // String prettyTime(DateTime time) => DateFormat('HH:mm').format(time);
+
+    // Duration d = new Duration(seconds: durationInsideOfficeInSeconds);
+// DateTime date = DateTime.fromMicrosecondsSinceEpoch(durationInsideOfficeInSeconds);
+    return '1:15';
+  }
+
+  get selectedTabIndex => _selectedTabIndex;
+
+  set selectedTabIndex(int index) {
+    if (_selectedTabIndex == index) return;
+    print('> selected index change from $_selectedTabIndex to $index');
+    _selectedTabIndex = index;
+    notifyListeners();
+  }
 
   User(
       {this.username,
@@ -32,6 +48,26 @@ class User extends ChangeNotifier {
       this.punchDate,
       this.isPresent,
       this.photoUrl});
+
+  List<User> users;
+
+  /// Logged in user
+  static User _currentUser;
+  static User get currentUser => _currentUser;
+  static set currentUser(User user) {
+    _currentUser = user;
+    print('> current user property set ${user.username}');
+  }
+
+  /// User whose profile is selected by current user
+  static User _profileUser;
+  static User get profileUser => _profileUser;
+
+  void setProfileUser(User user) {
+    _profileUser = user;
+    print('> profile user property set ${_profileUser.username}');
+    notifyListeners();
+  }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

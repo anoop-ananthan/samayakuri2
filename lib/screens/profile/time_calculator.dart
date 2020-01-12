@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
+class Calculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text('Calculator');
   }
 }
