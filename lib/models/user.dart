@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:samayakuri2/models/punch.dart';
 
 /// User class defines all the employees of the establishment
@@ -72,29 +70,8 @@ class User {
             List<Punch>.from(json["punches"].map((x) => Punch.fromJson(x))));
   }
 
-  void getUsers() async {
-    print('> calling getusers()');
-    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
-    final response = await http.get(url);
-    var userList = (json.decode(response.body) as List)
-        .map<User>((u) => User.fromJson(u))
-        .toList();
-    userList.sort((a, b) => a.name.compareTo(b.name));
-    users = userList.toList();
-  }
-
   @override
   String toString() {
     return this.name;
-  }
-
-  Future<List<User>> fetchUsers() async {
-    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
-    final response = await http.get(url);
-    var userList = (json.decode(response.body) as List)
-        .map<User>((u) => User.fromJson(u))
-        .toList();
-    userList.sort((a, b) => a.name.compareTo(b.name));
-    return userList;
   }
 }
