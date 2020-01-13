@@ -10,7 +10,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   List<User> _userList;
-
   String username;
 
   void initState() {
@@ -36,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
       if (_userList.length == 0) return;
       for (var u in _userList) {
         if (u.username == username) {
-          User.currentUser = u;
           return true;
         }
       }
