@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:samayakuri2/data/store.dart';
 import 'package:samayakuri2/models/user.dart';
-// import 'package:samayakuri2/screens/profile/punch_log.dart';
-// import 'package:samayakuri2/screens/profile/time_calculator.dart';
-// import 'package:samayakuri2/screens/profile/timing.dart';
+import 'package:samayakuri2/screens/profile/punch_log.dart';
+import 'package:samayakuri2/screens/profile/time_calculator.dart';
+import 'package:samayakuri2/screens/profile/timing.dart';
 import 'package:samayakuri2/globals.dart' as globals;
 
 class ProfileScreen extends StatelessWidget {
   final AppStore store = globals.store;
-  ProfileScreen();
 
   @override
   Widget build(BuildContext context) {
     final User user = store.profileUser;
     List<Widget> tabs = [
-      // Timing(),
+      Timing(),
+      PunchLog(),
+      Calculator(),
       // PunchLog(),
-      // Calculator(),
     ];
     return Observer(
       builder: (_) => Scaffold(
@@ -35,6 +35,7 @@ class ProfileScreen extends StatelessWidget {
                 Container(
                   height: 225,
                   color: Colors.green[200],
+                  // color: Colors.purple,
                 ),
                 ClipPath(
                   clipper: CurvedClipper(),
@@ -51,7 +52,8 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 )
               ],
-            )
+            ),
+            tabs[store.selectedTabIndex],
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -59,23 +61,23 @@ class ProfileScreen extends StatelessWidget {
           onTap: (index) {
             try {
               store.selectedTabIndex = index;
-              print('> selected index - ${store.selectedTabIndex}');
+              print('> selected index = ${store.selectedTabIndex}');
             } catch (e) {
               print(e);
             }
           },
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Home'),
+              icon: Icon(Icons.watch),
+              title: Text('Timing'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              title: Text('Business'),
+              icon: Icon(Icons.fingerprint),
+              title: Text('Punch Log'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              title: Text('School'),
+              icon: Icon(Icons.lightbulb_outline),
+              title: Text('Calculator'),
             ),
           ],
         ),

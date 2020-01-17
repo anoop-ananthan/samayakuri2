@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:samayakuri2/data/store.dart';
 import 'package:samayakuri2/screens/login/login.dart';
-import 'package:samayakuri2/screens/profile.dart';
+import 'package:samayakuri2/screens/profile/profile.dart';
 import 'package:samayakuri2/screens/users_list.dart';
 
 final AppStore store = AppStore();
