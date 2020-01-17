@@ -19,12 +19,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     this.fetcUsersFromApi();
-    print('> init');
   }
 
   void fetcUsersFromApi() async {
     await appStore.getUsers();
-    print("> got the users from the API ${appStore.users}");
   }
 
   onLoginButtonClicked() {
@@ -36,12 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   checkIfUserExists() {
     try {
-      print('> check function');
-      print("> ${appStore.users}");
       if (appStore.users.length == 0) return;
       for (var u in appStore.users) {
         if (u.username == username) {
-          print('Successful login!');
           return true;
         }
       }

@@ -9,14 +9,11 @@ class UsersListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('> loading user_list');
-
-    print("> data here? ${store.users}");
-
     final List<User> users = store.users;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Employees'),
+        title: Text('The Blue Warriors'),
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: users.length,

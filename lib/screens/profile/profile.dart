@@ -24,9 +24,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.purple,
-          title: Text(
-            '${user.name} ${store.selectedTabIndex}',
-          ),
+          title: Text(user.name),
         ),
         body: Column(
           children: <Widget>[
@@ -59,12 +57,7 @@ class ProfileScreen extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: store.selectedTabIndex,
           onTap: (index) {
-            try {
-              store.selectedTabIndex = index;
-              print('> selected index = ${store.selectedTabIndex}');
-            } catch (e) {
-              print(e);
-            }
+            store.selectedTabIndex = index;
           },
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
