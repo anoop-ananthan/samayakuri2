@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:samayakuri2/data/store.dart';
 import 'package:samayakuri2/screens/login/login_background.dart';
 import 'package:toast/toast.dart';
-
-final appStore = AppStore();
+import 'package:samayakuri2/globals.dart' as globals;
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen();
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   String username;
+  final AppStore appStore = globals.store;
+
+  _LoginScreenState();
 
   void initState() {
     super.initState();

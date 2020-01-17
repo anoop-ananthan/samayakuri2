@@ -60,6 +60,23 @@ mixin _$AppStore on _AppStore, Store {
     }, _$profileUserAtom, name: '${_$profileUserAtom.name}_set');
   }
 
+  final _$selectedTabIndexAtom = Atom(name: '_AppStore.selectedTabIndex');
+
+  @override
+  int get selectedTabIndex {
+    _$selectedTabIndexAtom.context.enforceReadPolicy(_$selectedTabIndexAtom);
+    _$selectedTabIndexAtom.reportObserved();
+    return super.selectedTabIndex;
+  }
+
+  @override
+  set selectedTabIndex(int value) {
+    _$selectedTabIndexAtom.context.conditionallyRunInAction(() {
+      super.selectedTabIndex = value;
+      _$selectedTabIndexAtom.reportChanged();
+    }, _$selectedTabIndexAtom, name: '${_$selectedTabIndexAtom.name}_set');
+  }
+
   final _$getUsersAsyncAction = AsyncAction('getUsers');
 
   @override

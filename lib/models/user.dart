@@ -32,20 +32,21 @@ class User {
     _selectedTabIndex = index;
   }
 
-  User(
-      {this.username,
-      this.name,
-      this.role,
-      this.totalPunch,
-      this.firstPunch,
-      this.lastPunch,
-      this.durationInsideOfficeInSeconds,
-      this.durationOutsideOfficeInSeconds,
-      this.totalTimeSpentAfterFirstPunchInSeconds,
-      this.punchDate,
-      this.isPresent,
-      this.punchLog,
-      this.photoUrl});
+  User({
+    this.username,
+    this.name,
+    this.role,
+    this.totalPunch,
+    this.firstPunch,
+    this.lastPunch,
+    this.durationInsideOfficeInSeconds,
+    this.durationOutsideOfficeInSeconds,
+    this.totalTimeSpentAfterFirstPunchInSeconds,
+    this.punchDate,
+    this.isPresent,
+    this.punchLog,
+    this.photoUrl,
+  });
 
   List<User> users;
 

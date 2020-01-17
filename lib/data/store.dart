@@ -19,6 +19,9 @@ abstract class _AppStore with Store {
   @observable
   User profileUser;
 
+  @observable
+  int selectedTabIndex = 0;
+
   @action
   getUsers() async {
     users = await _service.fetchUsers();
