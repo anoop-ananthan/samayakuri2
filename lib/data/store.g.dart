@@ -80,7 +80,7 @@ mixin _$AppStore on _AppStore, Store {
   final _$getUsersAsyncAction = AsyncAction('getUsers');
 
   @override
-  Future getUsers() {
-    return _$getUsersAsyncAction.run(() => super.getUsers());
+  Future getUsers({dynamic date}) {
+    return _$getUsersAsyncAction.run(() => super.getUsers(date: date));
   }
 }

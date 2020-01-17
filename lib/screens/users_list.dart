@@ -14,6 +14,20 @@ class UsersListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('The Blue Warriors'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () async {
+              var selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+              );
+              if (selectedDate != null) {
+                store.getUsers(date: selectedDate);
+              }
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: users.length,

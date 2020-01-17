@@ -23,7 +23,7 @@ abstract class _AppStore with Store {
   int selectedTabIndex = 0;
 
   @action
-  getUsers() async {
-    users = await _service.fetchUsers();
+  getUsers({date}) async {
+    users = await _service.fetchUsers(date: date);
   }
 }
