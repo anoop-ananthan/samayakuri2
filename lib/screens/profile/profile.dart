@@ -60,9 +60,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 Center(
-                  child: CircleAvatar(
-                    radius: 105,
-                    backgroundImage: NetworkImage(user.photoUrl),
+                  child: Hero(
+                    tag: user.username,
+                    child: CircleAvatar(
+                      radius: 105,
+                      backgroundImage: NetworkImage(user.photoUrl),
+                    ),
                   ),
                 )
               ],
