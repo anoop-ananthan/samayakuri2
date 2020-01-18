@@ -42,7 +42,6 @@ class PunchLog extends StatelessWidget {
     return Observer(
       builder: (_) => Expanded(
         child: ListView.separated(
-          reverse: true,
           shrinkWrap: true,
           itemCount: store.profileUser.punchLog.length,
           separatorBuilder: (context, i) => Divider(

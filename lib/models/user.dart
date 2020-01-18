@@ -43,19 +43,23 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        username: json['username'] as String,
-        name: json['fullname'] as String,
-        role: json['userrole'] as String,
-        firstPunch: json['firstpunch'] as String,
-        lastPunch: json['lastpunch'] as String,
-        timeInOffice: formatTime(json["intime"] as int),
-        timeForBreak: formatTime(json["outtime"] as int),
-        totalTime: formatTime(json["tot"] as int),
-        punchDate: json['pdate'] as String,
-        isPresent: json['status'].toString() == 'In',
-        photoUrl: json['picture'] as String,
-        punchLog:
-            List<Punch>.from(json["punches"].map((x) => Punch.fromJson(x))));
+      username: json['username'] as String,
+      name: json['fullname'] as String,
+      role: json['userrole'] as String,
+      firstPunch: json['firstpunch'] as String,
+      lastPunch: json['lastpunch'] as String,
+      timeInOffice: formatTime(json["intime"] as int),
+      timeForBreak: formatTime(json["outtime"] as int),
+      totalTime: formatTime(json["tot"] as int),
+      punchDate: json['pdate'] as String,
+      isPresent: json['status'].toString() == 'In',
+      photoUrl: json['picture'] as String,
+      punchLog: List<Punch>.from(
+        json["punches"].map(
+          (x) => Punch.fromJson(x),
+        ),
+      ).toList().reversed.toList(),
+    );
   }
 
   @override
