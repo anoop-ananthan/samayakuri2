@@ -1,47 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:samayakuri2/data/store.dart';
 import 'package:samayakuri2/models/user.dart';
 import 'package:samayakuri2/screens/profile/punch_log.dart';
 import 'package:samayakuri2/screens/profile/time_calculator.dart';
 import 'package:samayakuri2/screens/profile/timing.dart';
+import 'package:samayakuri2/globals.dart' as globals;
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatelessWidget {
+  final AppStore store = globals.store;
+
   @override
   Widget build(BuildContext context) {
-    // final User user = Provider.of<User>(context, listen: false);
+    final User user = store.profileUser;
+    print(user.punchLog);
     List<Widget> tabs = [
       Timing(),
       PunchLog(),
       Calculator(),
+      // PunchLog(),
     ];
-    return Scaffold(
-      body: Consumer<User>(
-        builder: (context, user, child) => Center(
-          child: tabs[user.selectedTabIndex],
+    return Observer(
+      builder: (_) => Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.purple,
+          title: Text(user.name),
+          actions: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, bottom: 1),
+                child: Text(
+                  DateFormat('MMM d').format(store.selectedDate),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .copyWith(color: Colors.white),
+                ),
+              ),
+            )
+          ],
         ),
-      ),
-      bottomNavigationBar: Consumer<User>(
-        builder: (context, user, child) => BottomNavigationBar(
-          currentIndex: user.selectedTabIndex,
+        body: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Container(
+                  height: 225,
+                  color: Colors.green[200],
+                  // color: Colors.purple,
+                ),
+                ClipPath(
+                  clipper: CurvedClipper(),
+                  child: Container(
+                    color: Colors.purple,
+                    height: 225,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
+                Center(
+                  child: CircleAvatar(
+                    radius: 105,
+                    backgroundImage: NetworkImage(user.photoUrl),
+                  ),
+                )
+              ],
+            ),
+            tabs[store.selectedTabIndex],
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: store.selectedTabIndex,
           onTap: (index) {
-            try {
-              user.selectedTabIndex = index;
-            } catch (e) {
-              print(e);
-            }
+            store.selectedTabIndex = index;
           },
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Home'),
+              icon: Icon(Icons.watch),
+              title: Text('Timing'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              title: Text('Business'),
+              icon: Icon(Icons.fingerprint),
+              title: Text('Punch Log'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              title: Text('School'),
+              icon: Icon(Icons.lightbulb_outline),
+              title: Text('Calculator'),
             ),
           ],
         ),
@@ -50,140 +95,18 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// import 'package:flutter/material.dart';
-// import 'package:samayakuri2/models/user.dart';
+class CurvedClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(size.width * .05, size.height);
+    path.lineTo(size.width, 0);
+    return path;
+  }
 
-// class ProfileScreen extends StatelessWidget {
-//   final User user;
-
-//   ProfileScreen(this.user);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           elevation: 0,
-//           backgroundColor: Colors.purple,
-//           title: Text(
-//             user.name,
-//           ),
-//         ),
-//         body: Column(
-//           children: <Widget>[
-//             Stack(
-//               children: <Widget>[
-//                 Container(
-//                   height: 225,
-//                   color: Colors.green[200],
-//                 ),
-//                 ClipPath(
-//                   clipper: CurvedClipper(),
-//                   child: Container(
-//                     color: Colors.purple,
-//                     height: 225,
-//                     width: MediaQuery.of(context).size.width,
-//                   ),
-//                 ),
-//                 Center(
-//                   child: CircleAvatar(
-//                     radius: 105,
-//                     backgroundImage: NetworkImage(user.photoUrl),
-//                   ),
-//                 )
-//               ],
-//             )
-//           ],
-//         ),
-//         bottomNavigationBar: NavBar());
-//   }
-// }
-
-// class NavBar extends StatefulWidget {
-//   @override
-//   _NavBarState createState() => _NavBarState();
-// }
-
-// class _NavBarState extends State<NavBar> {
-//   int _selectedIndex = 0;
-//   static const TextStyle optionStyle =
-//       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-//   static const List<Widget> _widgetOptions = <Widget>[
-//     Text(
-//       'Index 0: Home',
-//       style: optionStyle,
-//     ),
-//     Text(
-//       'Index 1: Business',
-//       style: optionStyle,
-//     ),
-//     Text(
-//       'Index 2: School',
-//       style: optionStyle,
-//     ),
-//   ];
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       items: const <BottomNavigationBarItem>[
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.home),
-//           title: Text('Home'),
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.business),
-//           title: Text('Business'),
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.school),
-//           title: Text('School'),
-//         ),
-//       ],
-//       currentIndex: _selectedIndex,
-//       selectedItemColor: Colors.amber[800],
-//       onTap: _onItemTapped,
-//     );
-//   }
-// }
-
-// class CurvedClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     Path path = Path();
-//     path.lineTo(0, size.height);
-//     path.lineTo(size.width * .05, size.height);
-//     path.lineTo(size.width, 0);
-//     return path;
-//   }
-
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) {
-//     return true;
-//   }
-// }
-
-// bottomNavigationBar: BottomNavigationBar(
-//         items: const <BottomNavigationBarItem>[
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             title: Text('Home'),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.business),
-//             title: Text('Business'),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.school),
-//             title: Text('School'),
-//           ),
-//         ],
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: Colors.amber[800],
-//         onTap: _onItemTapped,
-//       ),
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}

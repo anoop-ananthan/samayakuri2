@@ -1,103 +1,65 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:samayakuri2/models/punch.dart';
 
 /// User class defines all the employees of the establishment
-class User extends ChangeNotifier {
+class User {
   String username;
   String name;
   String role;
-  int totalPunch;
   String firstPunch;
   String lastPunch;
-  int durationInsideOfficeInSeconds;
-  int durationOutsideOfficeInSeconds;
-  int totalTimeSpentAfterFirstPunchInSeconds;
+  String totalTime;
+  String timeInOffice;
+  String timeForBreak;
+
   String punchDate;
   String photoUrl;
   bool isPresent;
   int _selectedTabIndex = 0;
-
-  String get durationInsideOffice {
-    // String prettyTime(DateTime time) => DateFormat('HH:mm').format(time);
-
-    // Duration d = new Duration(seconds: durationInsideOfficeInSeconds);
-// DateTime date = DateTime.fromMicrosecondsSinceEpoch(durationInsideOfficeInSeconds);
-    return '1:15';
-  }
+  List<Punch> punchLog;
 
   get selectedTabIndex => _selectedTabIndex;
 
   set selectedTabIndex(int index) {
     if (_selectedTabIndex == index) return;
-    print('> selected index change from $_selectedTabIndex to $index');
     _selectedTabIndex = index;
-    notifyListeners();
   }
 
-  User(
-      {this.username,
-      this.name,
-      this.role,
-      this.totalPunch,
-      this.firstPunch,
-      this.lastPunch,
-      this.durationInsideOfficeInSeconds,
-      this.durationOutsideOfficeInSeconds,
-      this.totalTimeSpentAfterFirstPunchInSeconds,
-      this.punchDate,
-      this.isPresent,
-      this.photoUrl});
+  User({
+    this.username,
+    this.name,
+    this.role,
+    this.firstPunch,
+    this.lastPunch,
+    this.timeInOffice,
+    this.timeForBreak,
+    this.punchDate,
+    this.isPresent,
+    this.punchLog,
+    this.photoUrl,
+    this.totalTime,
+  });
 
   List<User> users;
 
-  /// Logged in user
-  static User _currentUser;
-  static User get currentUser => _currentUser;
-  static set currentUser(User user) {
-    _currentUser = user;
-    print('> current user property set ${user.username}');
-  }
-
-  /// User whose profile is selected by current user
-  static User _profileUser;
-  static User get profileUser => _profileUser;
-
-  void setProfileUser(User user) {
-    _profileUser = user;
-    print('> profile user property set ${_profileUser.username}');
-    notifyListeners();
-  }
-
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        username: json['username'] as String,
-        name: json['fullname'] as String,
-        role: json['userrole'] as String,
-        totalPunch: json['totalPunch'] as int,
-        firstPunch: json['firstPunch'] as String,
-        lastPunch: json['lastPunch'] as String,
-        durationInsideOfficeInSeconds:
-            json['durationInsideOfficeInSeconds'] as int,
-        durationOutsideOfficeInSeconds:
-            json['durationOutsideOfficeInSeconds'] as int,
-        totalTimeSpentAfterFirstPunchInSeconds:
-            json['totalTimeSpentAfterFirstPunchInSeconds'] as int,
-        punchDate: json['punchDate'] as String,
-        isPresent: json['status'].toString() == 'In',
-        photoUrl: json['picture'] as String);
-  }
-
-  void getUsers() async {
-    print('> calling getusers()');
-    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
-    final response = await http.get(url);
-    var userList = (json.decode(response.body) as List)
-        .map<User>((u) => User.fromJson(u))
-        .toList();
-    userList.sort((a, b) => a.name.compareTo(b.name));
-    users = userList.toList();
-    notifyListeners();
+      username: json['username'] as String,
+      name: json['fullname'] as String,
+      role: json['userrole'] as String,
+      firstPunch: json['firstpunch'] as String,
+      lastPunch: json['lastpunch'] as String,
+      timeInOffice: formatTime(json["intime"] as int),
+      timeForBreak: formatTime(json["outtime"] as int),
+      totalTime: formatTime(json["tot"] as int),
+      punchDate: json['pdate'] as String,
+      isPresent: json['status'].toString() == 'In',
+      photoUrl: json['picture'] as String,
+      punchLog: List<Punch>.from(
+        json["punches"].map(
+          (x) => Punch.fromJson(x),
+        ),
+      ).toList().reversed.toList(),
+    );
   }
 
   @override
@@ -105,13 +67,10 @@ class User extends ChangeNotifier {
     return this.name;
   }
 
-  Future<List<User>> fetchUsers() async {
-    const url = 'http://bhipms.net/index.php?r=punchresult/DailyPunchApi';
-    final response = await http.get(url);
-    var userList = (json.decode(response.body) as List)
-        .map<User>((u) => User.fromJson(u))
-        .toList();
-    userList.sort((a, b) => a.name.compareTo(b.name));
-    return userList;
+  static String formatTime(int time) {
+    Duration duration = Duration(seconds: time.round());
+    return [duration.inHours, duration.inMinutes]
+        .map((seg) => seg.remainder(60).toString().padLeft(2, '0'))
+        .join(':');
   }
 }

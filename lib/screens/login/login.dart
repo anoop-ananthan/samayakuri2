@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:samayakuri2/models/user.dart';
+import 'package:samayakuri2/data/store.dart';
 import 'package:samayakuri2/screens/login/login_background.dart';
 import 'package:toast/toast.dart';
+import 'package:samayakuri2/globals.dart' as globals;
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen();
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  List<User> _userList;
-
   String username;
+  final AppStore appStore = globals.store;
+
+  _LoginScreenState();
 
   void initState() {
     super.initState();
@@ -19,9 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void fetcUsersFromApi() async {
-    User user = User();
-    this._userList = await user.fetchUsers();
-    print("> got the users from the API");
+    await appStore.getUsers();
   }
 
   onLoginButtonClicked() {
@@ -33,10 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   checkIfUserExists() {
     try {
-      if (_userList.length == 0) return;
-      for (var u in _userList) {
+      if (appStore.users.length == 0) return;
+      for (var u in appStore.users) {
         if (u.username == username) {
-          User.currentUser = u;
           return true;
         }
       }
