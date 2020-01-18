@@ -77,6 +77,23 @@ mixin _$AppStore on _AppStore, Store {
     }, _$selectedTabIndexAtom, name: '${_$selectedTabIndexAtom.name}_set');
   }
 
+  final _$selectedDateAtom = Atom(name: '_AppStore.selectedDate');
+
+  @override
+  DateTime get selectedDate {
+    _$selectedDateAtom.context.enforceReadPolicy(_$selectedDateAtom);
+    _$selectedDateAtom.reportObserved();
+    return super.selectedDate;
+  }
+
+  @override
+  set selectedDate(DateTime value) {
+    _$selectedDateAtom.context.conditionallyRunInAction(() {
+      super.selectedDate = value;
+      _$selectedDateAtom.reportChanged();
+    }, _$selectedDateAtom, name: '${_$selectedDateAtom.name}_set');
+  }
+
   final _$getUsersAsyncAction = AsyncAction('getUsers');
 
   @override

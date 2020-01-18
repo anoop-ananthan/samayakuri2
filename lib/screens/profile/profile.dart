@@ -6,6 +6,7 @@ import 'package:samayakuri2/screens/profile/punch_log.dart';
 import 'package:samayakuri2/screens/profile/time_calculator.dart';
 import 'package:samayakuri2/screens/profile/timing.dart';
 import 'package:samayakuri2/globals.dart' as globals;
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatelessWidget {
   final AppStore store = globals.store;
@@ -13,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final User user = store.profileUser;
+    print(user.punchLog);
     List<Widget> tabs = [
       Timing(),
       PunchLog(),
@@ -25,6 +27,14 @@ class ProfileScreen extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.purple,
           title: Text(user.name),
+          actions: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Text(DateFormat('MMM d').format(store.selectedDate)),
+              ),
+            )
+          ],
         ),
         body: Column(
           children: <Widget>[

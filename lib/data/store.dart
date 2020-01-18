@@ -22,6 +22,9 @@ abstract class _AppStore with Store {
   @observable
   int selectedTabIndex = 0;
 
+  @observable
+  DateTime selectedDate = DateTime.now();
+
   @action
   getUsers({date}) async {
     users = await _service.fetchUsers(date: date);
