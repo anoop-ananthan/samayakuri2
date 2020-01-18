@@ -17,10 +17,21 @@ class UsersListScreen extends StatelessWidget {
           leading: Icon(Icons.bubble_chart),
           title: Text('Blueberries'),
           actions: <Widget>[
-            FlatButton.icon(
-              textColor: Colors.white,
-              label: Text(DateFormat('MMM d, EE').format(store.selectedDate)),
-              icon: Icon(Icons.calendar_today),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  DateFormat('MMM d, EE').format(store.selectedDate),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.date_range),
+              color: Colors.white,
               onPressed: () async {
                 var selectedDate = await showDatePicker(
                   context: context,
@@ -36,7 +47,7 @@ class UsersListScreen extends StatelessWidget {
                   var dateText =
                       DateFormat("MMM d, EEEE").format(store.selectedDate);
                   Toast.show('Viewing data on $dateText', context,
-                      duration: 3,
+                      duration: 1,
                       backgroundColor: Colors.green,
                       backgroundRadius: 5);
                 }

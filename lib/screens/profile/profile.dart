@@ -30,8 +30,14 @@ class ProfileScreen extends StatelessWidget {
           actions: <Widget>[
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Text(DateFormat('MMM d').format(store.selectedDate)),
+                padding: const EdgeInsets.only(right: 20, bottom: 1),
+                child: Text(
+                  DateFormat('MMM d').format(store.selectedDate),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .copyWith(color: Colors.white),
+                ),
               ),
             )
           ],
