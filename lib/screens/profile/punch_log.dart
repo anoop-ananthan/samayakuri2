@@ -55,7 +55,9 @@ class PunchLog extends StatelessWidget {
                   backgroundColor: Colors.green[100],
                   child: this.inOrOut(context, i)),
               title: Text(
-                  this.formatTime(store.profileUser.punchLog[i].punchtime)),
+                this.formatTime(store.profileUser.punchLog[i].punchtime),
+              ),
+              subtitle: Text(store.profileUser.punchLog[i].doorName),
             );
           },
         ),
