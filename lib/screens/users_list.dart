@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:samayakuri2/data/store.dart';
 import 'package:samayakuri2/globals.dart' as globals;
 import 'package:intl/intl.dart';
+import 'package:samayakuri2/screens/profile/profile.dart';
 import 'package:toast/toast.dart';
 
 class UsersListScreen extends StatelessWidget {
@@ -61,7 +62,9 @@ class UsersListScreen extends StatelessWidget {
             return ListTile(
               onTap: () {
                 store.profileUser = store.users[i];
-                Navigator.pushNamed(context, '/profile');
+                Navigator.of(context).push(PageRouteBuilder(
+                  pageBuilder: (context, _, __) => ProfileScreen(),
+                ));
               },
               leading: Hero(
                 tag: '${store.users[i].username}',
