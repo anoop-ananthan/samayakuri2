@@ -60,9 +60,25 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 Center(
-                  child: CircleAvatar(
-                    radius: 105,
-                    backgroundImage: NetworkImage(user.photoUrl),
+                  child: Hero(
+                    flightShuttleBuilder: (
+                      BuildContext flightContext,
+                      Animation<double> animation,
+                      HeroFlightDirection flightDirection,
+                      BuildContext fromHeroContext,
+                      BuildContext toHeroContext,
+                    ) {
+                      final Hero toHero = toHeroContext.widget;
+                      return RotationTransition(
+                        turns: animation,
+                        child: toHero.child,
+                      );
+                    },
+                    tag: '${user.username}',
+                    child: CircleAvatar(
+                      radius: 105,
+                      backgroundImage: NetworkImage(user.photoUrl),
+                    ),
                   ),
                 )
               ],
