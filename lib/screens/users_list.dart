@@ -64,7 +64,7 @@ class UsersListScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/profile');
               },
               leading: Hero(
-                tag: store.users[i].username,
+                tag: '${store.users[i].username}',
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(store.users[i].photoUrl),
                 ),
