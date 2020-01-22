@@ -62,9 +62,11 @@ class UsersListScreen extends StatelessWidget {
             return ListTile(
               onTap: () {
                 store.profileUser = store.users[i];
-                Navigator.of(context).push(PageRouteBuilder(
-                  pageBuilder: (context, _, __) => ProfileScreen(),
-                ));
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, _, __) => ProfileScreen(),
+                  ),
+                );
               },
               leading: Hero(
                 tag: '${store.users[i].username}',

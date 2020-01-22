@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (appStore.users.length == 0) return;
       for (var u in appStore.users) {
         if (u.username == username) {
+          globals.store.currentUser = u;
           return true;
         }
       }
