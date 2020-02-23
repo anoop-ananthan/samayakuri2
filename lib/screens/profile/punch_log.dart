@@ -11,19 +11,9 @@ class PunchLog extends StatelessWidget {
     return DateFormat('h:mm a').format(dateTime);
   }
 
-  Widget inOrOut(context, i) {
+  Widget inOrOut(context, position, length) {
+    var i = length - position;
     if (i % 2 == 0) {
-      return CircleAvatar(
-        backgroundColor: Colors.green[50],
-        child: Text(
-          'IN',
-          style: Theme.of(context).textTheme.subtitle.copyWith(
-                letterSpacing: 1,
-                color: Colors.green[900],
-              ),
-        ),
-      );
-    } else {
       return CircleAvatar(
         backgroundColor: Colors.red[50],
         child: Text(
@@ -31,6 +21,17 @@ class PunchLog extends StatelessWidget {
           style: Theme.of(context).textTheme.subtitle.copyWith(
                 letterSpacing: -0.60,
                 color: Colors.red,
+              ),
+        ),
+      );
+    } else {
+      return CircleAvatar(
+        backgroundColor: Colors.green[50],
+        child: Text(
+          'IN',
+          style: Theme.of(context).textTheme.subtitle.copyWith(
+                letterSpacing: 1,
+                color: Colors.green[900],
               ),
         ),
       );
@@ -51,8 +52,10 @@ class PunchLog extends StatelessWidget {
           itemBuilder: (context, i) {
             return ListTile(
               leading: CircleAvatar(
-                  backgroundColor: Colors.green[100],
-                  child: this.inOrOut(context, i)),
+                backgroundColor: Colors.green[100],
+                child:
+                    this.inOrOut(context, i, store.profileUser.punchLog.length),
+              ),
               title: Text(
                 this.formatTime(store.profileUser.punchLog[i].punchtime),
               ),
